@@ -65,7 +65,7 @@ public class User {
             this.name = RSAUtils.encrypt(this.name, this.publicKey);
             this.email = RSAUtils.encrypt(this.email, this.publicKey);
         } catch (InvalidKeySpecException e) {
-            throw new RuleException("Public key is required");
+            throw new RuleException("Invalid Public Key");
         }
     }
 
