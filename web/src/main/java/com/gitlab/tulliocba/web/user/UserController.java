@@ -58,7 +58,7 @@ public class UserController {
     public ResponseEntity<UserView> sendPublicKey(@PathVariable String id,
                                                   @Valid @RequestBody NewPublicKeyCommand publicKey) {
         return sendPublicKeyUseCase.sendPublicKey(id, publicKey.getPublicKey())
-                .map(user -> ResponseEntity.ok(user.toView()))
+                .map(user -> ResponseEntity.status(CREATED).body(user.toView()))
                 .orElse(ResponseEntity.notFound().build());
     }
 

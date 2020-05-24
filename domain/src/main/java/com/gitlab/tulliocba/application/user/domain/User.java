@@ -53,6 +53,8 @@ public class User {
 
         if (isBlank(publicKey)) throw new IllegalArgumentException("Public key is required");
 
+        if (isNotBlank(this.publicKey)) return;
+
         this.publicKey = publicKey;
 
         encryptData();

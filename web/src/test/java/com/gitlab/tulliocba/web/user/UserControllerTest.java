@@ -126,7 +126,7 @@ public class UserControllerTest {
 
         mockMvc.perform(request)
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test

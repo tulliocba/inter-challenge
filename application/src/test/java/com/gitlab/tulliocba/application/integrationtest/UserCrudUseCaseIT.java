@@ -88,7 +88,7 @@ public class UserCrudUseCaseIT {
                 .when()
                 .post(PATH_ID + "/keys")
                 .then()
-                .statusCode(HttpStatus.SC_OK);
+                .statusCode(HttpStatus.SC_CREATED);
 
         final Optional<User> userDB = userPersistenceAdapter.findUserById(USER_ID);
 
