@@ -76,11 +76,7 @@ public class UserService implements UserCRUDUseCase, SendPublicKeyUseCase {
 
         if (!user.isPresent()) return user;
 
-        try {
-            user.ifPresent(userDB -> userDB.addKey(publicKey));
-        } catch (IllegalArgumentException e) {
-            throw new RuleException(e.getMessage());
-        }
+        user.ifPresent(userDB -> userDB.addKey(publicKey));
 
         return user.map(userRepository::save);
     }

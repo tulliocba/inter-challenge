@@ -51,7 +51,7 @@ public class User {
 
     public void addKey(String publicKey) {
 
-        if (isBlank(publicKey)) throw new IllegalArgumentException("Public key is required");
+        if (isBlank(publicKey)) throw new RuleException("Public key is required");
 
         if (isNotBlank(this.publicKey)) return;
 
