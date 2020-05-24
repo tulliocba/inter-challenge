@@ -13,11 +13,11 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.ResponseMessage;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -29,6 +29,10 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
+    public static final String UNIQUE_NUMBERS_TAG = "uniqueNumbers";
+    public static final String USERS_TAG = "users";
+    private static final String ERROR_MODEL = "Error";
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -39,6 +43,8 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .additionalModels(new TypeResolver().resolve(ApiError.class))
+                .tags(new Tag(UNIQUE_NUMBERS_TAG, "Operations pertaining to UniqueNumbers."),
+                        new Tag(USERS_TAG, "Operations pertaining to Users."))
                 .globalResponseMessage(RequestMethod.POST, globalPostResponseMessages())
                 .globalResponseMessage(RequestMethod.GET, globalGetAndPutResponseMessages())
                 .globalResponseMessage(RequestMethod.DELETE, globalDeleteResponseMessages())
@@ -90,7 +96,7 @@ public class SwaggerConfiguration {
         return new ResponseMessageBuilder()
                 .code(HttpStatus.BAD_REQUEST.value())
                 .message("Bad request")
-                .responseModel(new ModelRef("Error"))
+                .responseModel(new ModelRef(ERROR_MODEL))
                 .build();
     }
 
@@ -98,7 +104,7 @@ public class SwaggerConfiguration {
         return new ResponseMessageBuilder()
                 .code(HttpStatus.NOT_FOUND.value())
                 .message("Not found")
-                .responseModel(new ModelRef("Error"))
+                .responseModel(new ModelRef(ERROR_MODEL))
                 .build();
     }
 
@@ -106,7 +112,7 @@ public class SwaggerConfiguration {
         return new ResponseMessageBuilder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message("Internal server error")
-                .responseModel(new ModelRef("Error"))
+                .responseModel(new ModelRef(ERROR_MODEL))
                 .build();
     }
 

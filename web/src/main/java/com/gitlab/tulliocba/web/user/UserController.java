@@ -7,6 +7,7 @@ import com.gitlab.tulliocba.application.user.service.UserCRUDUseCase;
 import com.gitlab.tulliocba.application.user.service.UserCRUDUseCase.NewUserCommand;
 import com.gitlab.tulliocba.application.user.service.UserCRUDUseCase.UniqueNumberView;
 import com.gitlab.tulliocba.application.user.service.UserCRUDUseCase.UserView;
+import com.gitlab.tulliocba.web.configuration.SwaggerConfiguration;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-@Api(tags = "users", description = "Operations pertaining to Users.")
+@Api(tags = SwaggerConfiguration.USERS_TAG)
 public class UserController {
 
     private final UserCRUDUseCase crudUseCase;

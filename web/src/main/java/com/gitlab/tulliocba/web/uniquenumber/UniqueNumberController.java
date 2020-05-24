@@ -10,10 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static com.gitlab.tulliocba.web.configuration.SwaggerConfiguration.UNIQUE_NUMBERS_TAG;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-@Api(tags = "uniqueNumbers", description = "Operations pertaining to UniqueNumbers.")
+@Api(tags = UNIQUE_NUMBERS_TAG)
 public class UniqueNumberController {
 
     private final CalculateUniqueNumberUserCase calculateUniqueNumberUserCase;
