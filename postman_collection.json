@@ -1,0 +1,560 @@
+{
+	"info": {
+		"_postman_id": "9e0fdbde-3f74-4ce7-b660-192f2e2a43f5",
+		"name": "INTER_CHALLENGE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2691c49f-a77b-4b51-abda-bf50bf6d7f9e",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response email and name should be equal to sent data\", function () {",
+									"    var response = pm.response.json();",
+									"    pm.expect(response.name).to.eql(pm.collectionVariables.get(\"name\"));",
+									"    pm.expect(response.email).to.eql(pm.collectionVariables.get(\"email\"));",
+									"});",
+									"",
+									"pm.test(\"Response id should not be empty\", function () {",
+									"    var response = pm.response.json();",
+									"    pm.expect(response.id).to.have.lengthOf(36);",
+									"});",
+									"",
+									"pm.environment.set(\"userId\", pm.response.json().id);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a892439f-1b5d-44b7-a2a8-798961cf8022",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{email}}\",\n  \"name\": \"{{name}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Create a new user"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47604b42-eb25-4dc9-a8e5-808db6183bd1",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response id, name and email should not be empty\", function () {",
+									"    var response = pm.response.json();",
+									"    pm.expect(response.id).to.have.lengthOf.above(0);",
+									"    pm.expect(response.name).to.have.lengthOf.above(0);",
+									"    pm.expect(response.email).to.have.lengthOf.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b25d3971-66b0-4b9b-a814-586dca58e699",
+								"exec": [
+									"const utils = eval(globals.globalUtils);",
+									"utils.newUserRequest();"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"publicKey\": \"{{publicKey}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}/keys",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}",
+								"keys"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0e54f0a2-3915-4556-9d28-939795a6add7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response id, name and email should not be empty\", function () {",
+									"    var response = pm.response.json();",
+									"    pm.expect(response.id).to.have.lengthOf.above(0);",
+									"    pm.expect(response.name).to.have.lengthOf.above(0);",
+									"    pm.expect(response.email).to.have.lengthOf.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c02a2072-284c-441f-a7aa-a1adcafe1050",
+								"exec": [
+									"let utils = eval(environment.utils)();",
+									"",
+									"utils.userRequest.create(true);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bbaeed2c-425b-476d-8dc3-ee65beb3f212",
+								"exec": [
+									"let utils = eval(environment.utils)();",
+									"",
+									"utils.userRequest.create(true);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "92b9127b-a0a9-4774-a29a-28c761694721",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Name is updated\", function () {",
+									"    var response = pm.response.json();",
+									"    pm.expect(response.name).not.eq(pm.environment.get(\"oldUserName\"));",
+									"});",
+									"",
+									"pm.test(\"Response id, name and email should not be empty\", function () {",
+									"    var response = pm.response.json();",
+									"    pm.expect(response.id).to.have.lengthOf.above(0);",
+									"    pm.expect(response.name).to.have.lengthOf.above(0);",
+									"    pm.expect(response.email).to.have.lengthOf.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"joao@gmail.com\",\n  \"name\": \"João Barros\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "76389130-a8e5-4e66-be8f-0fe48c386226",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"When trying to get the deleted resource, the status should be 404\", function () {",
+									"    pm.sendRequest(pm.collectionVariables.get('baseUrl') + '/users/' + pm.environment.get(\"userId\"), function (err, response) {",
+									"        pm.expect(response.code).to.eql(404);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2f2f81fb-fc57-4948-b2b3-b07410b9f714",
+								"exec": [
+									"let utils = eval(environment.utils)();",
+									"",
+									"utils.userRequest.create(false);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Unique Numbers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c6a535ba-ead0-4cea-9f5f-c2a30eeac0e4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "c61d4616-29ed-4fdd-9463-1c25916c3047",
+								"exec": [
+									"let utils = eval(environment.utils)();",
+									"",
+									"utils.userRequest.create(true);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}/uniqueNumbers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}",
+								"uniqueNumbers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Unique Number",
+			"item": [
+				{
+					"name": "Calculate Unique Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "77c8351c-3499-4636-b1fa-4ce8ccbbde64",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Reponse unique number should not be empty\", function () {",
+									"    var response = pm.response.json();",
+									"    pm.expect(response.id).to.have.lengthOf.above(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "61fa1368-3b7c-4955-a26f-dfeb6a9e3d40",
+								"exec": [
+									"let utils = eval(environment.utils)();",
+									"",
+									"utils.userRequest.create(true);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"concatenationQuantity\": {{concatenationQuantity}},\n  \"inputNumber\": \"{{inputNumber}}\",\n  \"userId\": \"{{userId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/uniqueNumbers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"uniqueNumbers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4e14409c-ed56-44a1-9ef3-2d10c833ecf8",
+				"type": "text/javascript",
+				"exec": [
+					"postman.setEnvironmentVariable(\"utils\", () => {",
+					"    var create = (sendKey) => {",
+					"        if (pm.environment.get(\"userId\")) {",
+					"            pm.sendRequest(pm.collectionVariables.get('baseUrl') + '/users/' + pm.environment.get(\"userId\"), function (err, response) {",
+					"                if (response.code == 404) {",
+					"                    pm.sendRequest({",
+					"                        url: pm.collectionVariables.get('baseUrl') + `/users`,",
+					"                        method: 'POST',",
+					"                        header: {",
+					"                            'content-type': 'application/json'",
+					"                        },",
+					"                        body: {",
+					"                            mode: 'raw',",
+					"                            raw: JSON.stringify({",
+					"                                name: pm.collectionVariables.get(\"name\"),",
+					"                                email: pm.collectionVariables.get(\"email\")",
+					"                            })",
+					"                        }",
+					"                    }, function (err, res) {",
+					"                        pm.environment.set(\"userId\", res.json().id);",
+					"                        pm.environment.set(\"oldUserName\", res.json().name);",
+					"                        if(sendKey) {",
+					"                            pm.sendRequest({",
+					"                                url: pm.collectionVariables.get('baseUrl') + '/users/' + pm.environment.get(\"userId\") + '/keys',",
+					"                                method: 'POST',",
+					"                                header: {",
+					"                                    'content-type': 'application/json'",
+					"                                },",
+					"                                body: {",
+					"                                    mode: 'raw',",
+					"                                    raw: JSON.stringify({",
+					"                                        publicKey: pm.collectionVariables.get(\"publicKey\")",
+					"                                    })",
+					"                                }",
+					"                            }, function (err, res) {",
+					"                            })",
+					"                        }",
+					"                    })",
+					"                }",
+					"            });",
+					"        }",
+					"    }",
+					"    return {",
+					"        userRequest: {",
+					"            create",
+					"        }",
+					"    };",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "8a441770-6e17-4bbc-943c-8feb5a82d456",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "f9f141e9-8720-4c90-8fbe-617cae141cdb",
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		},
+		{
+			"id": "171c4a5a-0592-4113-9993-bcbbcf606fd7",
+			"key": "publicKey",
+			"value": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAghO41Pg6kQbPH9rhqZshMQ39U+vZMMKDtHxIr+L5QQasmUEx1ZzYY+EmSSKvdWerzNsYwevFLO0r+7TT+6HwNIew+vuOf0ySPmptZweAeypzoS5lMndkQsL0zF93GUb+I/S64g55RfUI8XkgTjtm2n8qT4QFTICAQrOl00LZR9vEPY3eoD1YOHM6vGTN1pv9kjJg7fKpDj0g/KUiqW7mRkmfGVnzDj9/YDXTy9v6iZ93FgtF3IxLqgh12GGJZbsgiiUvsm96YaPCBb2OxC6IGv2xhSgMXtGMZml+R6paJjcQcWG1a9Tt+QIBXHVI4jmTGdKU4yKq+HU53uXtp3fgJQIDAQAB",
+			"type": "string"
+		},
+		{
+			"id": "1bba4c1d-3a55-424c-ae33-fa2ee3883651",
+			"key": "name",
+			"value": "Joao da Silva",
+			"type": "string"
+		},
+		{
+			"id": "6b3922cb-87f0-4f70-8fdc-2ce4d7a4cc01",
+			"key": "newName",
+			"value": "Joao Barros",
+			"type": "string"
+		},
+		{
+			"id": "0de57997-996f-40f6-87ab-0e0b3984d8d8",
+			"key": "email",
+			"value": "joao@gmail.com",
+			"type": "string"
+		},
+		{
+			"id": "a29ab1e9-d8e2-469f-b289-09554d73f516",
+			"key": "inputNumber",
+			"value": "9875",
+			"type": "string"
+		},
+		{
+			"id": "7a8e7171-07d5-48eb-829a-c0cf722819e5",
+			"key": "concatenationQuantity",
+			"value": "4",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

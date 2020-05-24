@@ -2,12 +2,15 @@ package com.gitlab.tulliocba.application.user.service;
 
 import com.gitlab.tulliocba.application.unique_number.domain.UniqueNumber;
 import com.gitlab.tulliocba.application.user.domain.User;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,16 +30,18 @@ public interface UserCRUDUseCase {
     @Value
     @AllArgsConstructor
     @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+    @ApiModel(description = "Model to create a new User")
     class NewUserCommand {
-        @NotBlank
         private String name;
         @NotBlank
+        @ApiModelProperty(example = "contact@gmail.com")
         private String email;
     }
 
     @Value
     @AllArgsConstructor
     @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+    @ApiModel(description = "User presentation model")
     class UserView {
         private String id;
         private String name;
@@ -47,6 +52,7 @@ public interface UserCRUDUseCase {
     @Value
     @AllArgsConstructor
     @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+    @ApiModel(description = "Unique Number presentation model")
     class UniqueNumberView {
         private int concatenationQuantity;
         private String inputNumber;

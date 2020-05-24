@@ -1,6 +1,7 @@
 package com.gitlab.tulliocba.application.unique_number.service;
 
 import com.gitlab.tulliocba.application.unique_number.domain.UniqueNumber;
+import io.swagger.annotations.ApiModel;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -17,12 +18,14 @@ public interface CalculateUniqueNumberUserCase {
     @Value
     @AllArgsConstructor
     @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+    @ApiModel(description = "Unique Number calculation result presentation model")
     class UniqueNumberResultView {
         private int uniqueNumber;
     }
 
     @Value
     @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+    @ApiModel(description = "Model to request a new unique number calculation")
     class NewUniqueNumberCalculationCommand {
         @Min(0)
         @Max(100000)
