@@ -51,7 +51,7 @@ public class User {
 
     public void addKey(String publicKey) {
 
-        if (isBlank(publicKey)) throw new IllegalArgumentException("Public key is required");
+        if (isBlank(publicKey)) throw new RuleException("Public key is required");
 
         if (isNotBlank(this.publicKey)) return;
 
@@ -65,7 +65,7 @@ public class User {
             this.name = RSAUtils.encrypt(this.name, this.publicKey);
             this.email = RSAUtils.encrypt(this.email, this.publicKey);
         } catch (InvalidKeySpecException e) {
-            throw new IllegalArgumentException("Public key is required");
+            throw new RuleException("Invalid Public Key");
         }
     }
 
