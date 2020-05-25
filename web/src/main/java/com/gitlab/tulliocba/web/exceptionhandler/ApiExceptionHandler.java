@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(RuleException.class)
-    public ResponseEntity<Object> handleRuleException(RuleException ex, WebRequest request) {
+    @ExceptionHandler({RuleException.class, IllegalArgumentException.class})
+    public ResponseEntity<Object> handleRuleException(Exception ex, WebRequest request) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), apiError.getStatus(), request);
     }
