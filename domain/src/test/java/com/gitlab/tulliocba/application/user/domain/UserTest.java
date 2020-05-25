@@ -1,5 +1,6 @@
 package com.gitlab.tulliocba.application.user.domain;
 
+import com.gitlab.tulliocba.application.user.service.exception.RuleException;
 import com.gitlab.tulliocba.common.util.RSAKeyUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,11 +13,11 @@ public class UserTest {
 
     @Test
     void should_fail_when_public_key_is_empty() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            final User joao = UserBuilder.builder()
-                    .given(UUID.randomUUID().toString(), "João", "joao@gmail.com").build();
+        Assertions.assertThrows(RuleException.class, () -> {
+            final User user = UserBuilder.builder()
+                    .given(UUID.randomUUID().toString(), "João", "user@gmail.com").build();
 
-            joao.addKey("");
+            user.addKey("");
         });
     }
 
