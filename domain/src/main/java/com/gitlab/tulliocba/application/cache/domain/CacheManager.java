@@ -48,7 +48,7 @@ public class CacheManager {
                 .filter(element -> nonNull(element) && value.equals(element.getKey()))
                 .findFirst();
 
-        if (cachedElement.isPresent()) return Optional.of(cachedElement.get().getValue());
+        if (cachedElement.isPresent()) return cachedElement.map(element -> element.getValue());
 
         return Optional.empty();
 
